@@ -387,4 +387,81 @@ function updateUI() {
     if (targetUnitLabel) {
         targetUnitLabel.textContent = State.unit.toUpperCase();
     }
+    
+    // Render Warm Up sets
+    renderWarmUp();
+}
+
+function renderWarmUp() {
+    const topWeightEl = document.getElementById('warmup-top-weight');
+    const topUnitEl = document.getElementById('warmup-top-unit');
+    const warmupList = document.getElementById('warmup-list');
+    
+    if (!topWeightEl || !warmupList) return;
+    
+    topWeightEl.textContent = State.targetWeight > 0 ? State.targetWeight : 0;
+    topUnitEl.textContent = State.unit.toUpperCase();
+    
+    if (State.targetWeight <= 0) {
+        warmupList.innerHTML = '<p class="text-gray" style="text-align:center; padding: 20px;">Enter a Top Set in the Calculate tab to see warm up jumps.</p>';
+        return;
+    }
+    
+    const jumps = [
+        { pct: 0, reps: 10, label: 'Empty Bar' },
+        { pct: 0.50, reps: 5, label: '50%' },
+        { pct: 0.70, reps: 3, label: '70%' },
+        { pct: 0.80, reps: 2, label: '80%' },
+        { pct: 0.90, reps: 1, label: '90%' },
+        { pct: 1.00, reps: 1, label: 'Top Set' }
+    ];
+    
+    const roundTo = (State.unit === 'kg') ? 2.5 : 5;
+    
+    warmupList.innerHTML = '';
+    
+    let lastWeight = 0;
+    jumps.forEach(jump => {
+        let weight = (jump.pct === 0) ? State.barWeight : Math.round((State.targetWeight * jump.pct) / roundTo) * roundTo;
+        
+        // Ensure weight is at least the bar weight and jumps are sequential
+        if (weight < State.barWeight) weight = State.barWeight;
+        if (weight < lastWeight) weight = lastWeight;
+        
+        // Skip duplicate jumps (e.g. if Top Set is very light) unless it's the Top Set itself
+        if (weight === lastWeight && jump.pct !== 1.0) return;
+        lastWeight = weight;
+        
+        const card = document.createElement('div');
+        card.className = 'warmup-card';
+        card.innerHTML = `
+            <div class="warmup-details">
+                <span class="warmup-weight">${weight} <span style="font-size:0.8rem">${State.unit.toUpperCase()}</span></span>
+                <span class="warmup-reps">${jump.label} • ${jump.reps} Reps</span>
+            </div>
+            <button class="btn-outline btn-load-warmup" data-weight="${weight}">Load</button>
+        `;
+        warmupList.appendChild(card);
+    });
+    
+    document.querySelectorAll('.btn-load-warmup').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const w = parseFloat(e.currentTarget.dataset.weight);
+            State.targetWeight = w;
+            const targetWeightInput = document.getElementById('target-weight-input');
+            if (targetWeightInput) targetWeightInput.value = w;
+            
+            // Switch back to Calculate tab
+            document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+            const calcBtn = document.querySelector('[data-tab="calculate"]');
+            if (calcBtn) calcBtn.classList.add('active');
+            
+            document.getElementById('load-bar-view').querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('calculate-mode-content').classList.add('active');
+            State.mode = 'calculate';
+            
+            updateUI();
+            if (window.calculatePlatesNeeded) window.calculatePlatesNeeded();
+        });
+    });
 }

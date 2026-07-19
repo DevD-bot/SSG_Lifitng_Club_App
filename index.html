@@ -101,9 +101,16 @@
                 </div>
                 
                 <div id="warmup-mode-content" class="tab-content">
-                    <div class="placeholder-content">
-                        <h3>Warm Up Calculator</h3>
-                        <p class="text-gray">Select your top set to calculate warm up jumps.</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background-color:var(--bg-panel); padding:15px; border-radius:12px; margin-bottom:15px;">
+                        <span style="font-weight:600; color:var(--text-muted);">Top Set</span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span id="warmup-top-weight" style="font-size:1.5rem; font-weight:800;">0</span>
+                            <span id="warmup-top-unit" class="text-red" style="font-weight:600;">KG</span>
+                        </div>
+                    </div>
+                    
+                    <div id="warmup-list" style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+                        <!-- Warm up sets generated here -->
                     </div>
                 </div>
             </div>
