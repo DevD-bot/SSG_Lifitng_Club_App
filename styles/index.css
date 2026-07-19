@@ -176,7 +176,16 @@ button {
     border-bottom-color: var(--accent-red);
 }
 
-/* Main Content */
+input, select, textarea, button {
+    font-family: inherit;
+    color: var(--text-main);
+}
+
+input::-webkit-input-placeholder {
+    color: var(--text-muted);
+}
+
+/* Base Elements */
 .main-content {
     flex: 1;
     overflow-y: auto;
@@ -584,6 +593,12 @@ input:checked + .slider:before {
     width: 80px;
     font-family: inherit;
     outline: none;
+    -webkit-text-fill-color: var(--text-main);
+}
+.minimal-input:disabled {
+    opacity: 0.6;
+    -webkit-text-fill-color: var(--text-muted);
+    color: var(--text-muted);
 }
 /* Ensure calendar icon is clearly visible if color-scheme fails */
 input[type="date"]::-webkit-calendar-picker-indicator {
