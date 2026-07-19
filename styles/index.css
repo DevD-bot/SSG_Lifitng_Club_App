@@ -409,7 +409,7 @@ button {
 .app-view {
     display: none;
     flex-direction: column;
-    height: 100%;
+    min-height: 100%;
 }
 .app-view.active {
     display: flex;
@@ -435,6 +435,7 @@ button {
     border-radius: 12px;
     overflow: hidden;
     margin-top: 10px;
+    word-break: break-word;
 }
 .settings-item {
     display: flex;
