@@ -6,7 +6,12 @@ const State = {
     targetWeight: 0,
     mode: 'calculate', // calculate, reverse, warmup
     reversePlates: {}, // e.g. { '25': 2, '20': 0 }
-    theme: localStorage.getItem('ssg_theme') || 'red'
+    theme: localStorage.getItem('ssg_theme') || 'red',
+    prs: JSON.parse(localStorage.getItem('ssg_prs')) || {
+        "Squat": { weight: 0, unit: "LB", date: "" },
+        "Bench Press": { weight: 0, unit: "LB", date: "" },
+        "Deadlift": { weight: 0, unit: "LB", date: "" }
+    }
 };
 
 // Available plates in KG (default standard powerlifting set)
@@ -156,6 +161,115 @@ function setupEventListeners() {
             }
         });
     });
+
+    // --- Personal Records Logic ---
+    const prModal = document.getElementById('pr-modal');
+    const prList = document.getElementById('pr-list');
+    
+    function renderPRs() {
+        if (!prList) return;
+        prList.innerHTML = '';
+        
+        for (const [liftName, data] of Object.entries(State.prs)) {
+            const card = document.createElement('div');
+            card.className = 'pr-card';
+            
+            let dateStr = data.date ? new Date(data.date).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'}) : 'No date set';
+            
+            card.innerHTML = `
+                <div class="pr-card-info">
+                    <span class="pr-card-title">${liftName}</span>
+                    <span class="pr-card-date">${dateStr}</span>
+                </div>
+                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                    <div class="pr-card-weight">${data.weight > 0 ? data.weight : '-'} <span style="font-size:0.9rem; font-weight:600;">${data.unit}</span></div>
+                    <div class="pr-actions">
+                        <button class="icon-btn text-gray btn-edit-pr" data-lift="${liftName}" style="padding:4px;"><i class="ph ph-pencil"></i></button>
+                        ${data.weight > 0 ? `<button class="btn-outline btn-load-pr" data-lift="${liftName}">Load</button>` : ''}
+                    </div>
+                </div>
+            `;
+            prList.appendChild(card);
+        }
+
+        // Attach listeners to dynamically created buttons
+        document.querySelectorAll('.btn-edit-pr').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const lift = e.currentTarget.dataset.lift;
+                openPRModal(lift);
+            });
+        });
+
+        document.querySelectorAll('.btn-load-pr').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const lift = e.currentTarget.dataset.lift;
+                const pr = State.prs[lift];
+                
+                // Switch to Load Bar View
+                document.querySelectorAll('.app-view, .nav-item').forEach(el => el.classList.remove('active'));
+                document.getElementById('load-bar-view').classList.add('active');
+                document.querySelector('[data-view="load-bar"]').classList.add('active');
+                document.getElementById('main-header-title').innerHTML = viewTitles['load-bar'];
+                
+                // Update State and Calculate
+                State.unit = pr.unit.toLowerCase();
+                State.targetWeight = parseFloat(pr.weight);
+                updateUnitToggleUI();
+                document.getElementById('target-weight').value = State.targetWeight;
+                calculatePlates();
+            });
+        });
+    }
+
+    function openPRModal(liftName = '') {
+        const inputName = document.getElementById('pr-input-name');
+        const inputWeight = document.getElementById('pr-input-weight');
+        const inputUnit = document.getElementById('pr-input-unit');
+        const inputDate = document.getElementById('pr-input-date');
+        
+        if (liftName && State.prs[liftName]) {
+            inputName.value = liftName;
+            inputName.disabled = true; // Don't allow changing name of existing
+            inputWeight.value = State.prs[liftName].weight || '';
+            inputUnit.value = State.prs[liftName].unit || 'LB';
+            inputDate.value = State.prs[liftName].date || '';
+        } else {
+            inputName.value = '';
+            inputName.disabled = false;
+            inputWeight.value = '';
+            inputUnit.value = State.unit.toUpperCase();
+            inputDate.value = new Date().toISOString().split('T')[0];
+        }
+        
+        prModal.classList.remove('hidden');
+    }
+
+    if (document.getElementById('btn-open-pr-modal')) {
+        document.getElementById('btn-open-pr-modal').addEventListener('click', () => openPRModal());
+    }
+    if (document.getElementById('btn-close-pr-modal')) {
+        document.getElementById('btn-close-pr-modal').addEventListener('click', () => prModal.classList.add('hidden'));
+    }
+    
+    if (document.getElementById('btn-save-pr')) {
+        document.getElementById('btn-save-pr').addEventListener('click', () => {
+            const name = document.getElementById('pr-input-name').value.trim();
+            if (!name) return alert("Please enter a lift name");
+            
+            const weight = parseFloat(document.getElementById('pr-input-weight').value) || 0;
+            const unit = document.getElementById('pr-input-unit').value;
+            const date = document.getElementById('pr-input-date').value;
+            
+            State.prs[name] = { weight, unit, date };
+            localStorage.setItem('ssg_prs', JSON.stringify(State.prs));
+            
+            prModal.classList.add('hidden');
+            renderPRs();
+        });
+    }
+
+    // Initialize PRs
+    renderPRs();
 
     // Unit toggle
     document.querySelectorAll('.toggle-btn').forEach(btn => {

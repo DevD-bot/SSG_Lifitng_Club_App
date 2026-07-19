@@ -258,12 +258,13 @@ button {
     padding: 8px 0;
     font-size: 0.9rem;
     font-weight: 600;
-    color: white;
+    color: var(--text-main);
     border-radius: 18px;
     transition: background-color 0.2s;
 }
 .toggle-btn.active {
     background-color: var(--accent-red);
+    color: white;
 }
 
 /* Weight Display */
@@ -655,4 +656,47 @@ input:checked + .slider:before {
     }
 }
 
-
+/* Personal Records */
+.pr-card {
+    background-color: var(--bg-panel);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pr-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.pr-card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.pr-card-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+.pr-card-weight {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--accent-red);
+}
+.pr-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.btn-outline {
+    border: 1px solid var(--accent-red);
+    color: var(--accent-red);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.btn-outline:hover {
+    background-color: var(--accent-red-dim);
+}
