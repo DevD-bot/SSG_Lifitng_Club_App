@@ -19,6 +19,8 @@
 
     /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
+    color-scheme: dark;
 }
 
 /* Themes */
@@ -40,6 +42,8 @@ html.theme-white {
     --bg-panel-light: #E5E5EA;
     --text-main: #000000;
     --text-muted: #666666;
+    
+    color-scheme: light;
 }
 
 html.theme-white .gradient-text {
@@ -580,6 +584,15 @@ input:checked + .slider:before {
     width: 80px;
     font-family: inherit;
     outline: none;
+}
+/* Ensure calendar icon is clearly visible if color-scheme fails */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+    filter: invert(1);
+}
+html.theme-white input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
 }
 .rpe-input-row {
     display: flex;
