@@ -104,6 +104,31 @@
                 </div>
             </div>
 
+            <!-- BARBELLS VIEW (Slide over) -->
+            <div id="barbells-view" class="app-view">
+                <div class="settings-menu" style="background: transparent;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding: 10px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <span class="text-gray">Bar Type</span>
+                        <div class="unit-toggle" style="width:120px; margin:0;">
+                            <button class="toggle-btn active">KG</button>
+                            <button class="toggle-btn">LB</button>
+                        </div>
+                        <button class="icon-btn text-red"><i class="ph ph-plus"></i></button>
+                    </div>
+                    
+                    <div style="display:flex; justify-content:space-between; padding: 10px 20px; font-weight:bold;">
+                        <span style="flex:1;">Bar</span>
+                        <span style="width:80px; text-align:center;">KG</span>
+                        <span style="width:100px; text-align:center;">LB</span>
+                        <span style="width:60px;"></span>
+                    </div>
+
+                    <div id="barbells-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
             <!-- INVENTORY VIEW (Slide over) -->
             <div id="inventory-view" class="app-view">
                 <div class="unit-toggle-container" style="margin-bottom: 20px;">
@@ -309,7 +334,7 @@
                 <div class="settings-menu" style="padding:15px;">
                     <h4 style="margin-bottom:5px;">About</h4>
                     <p style="font-size:0.9rem; margin-bottom:15px;">For powerlifters who struggle doing maths like me :)</p>
-                    <p style="font-size:0.9rem; margin-bottom:20px;">Coached by <a href="#" class="text-red">Sincere Training Systems 🐑</a></p>
+                    <p style="font-size:0.9rem; margin-bottom:20px;">Founded by <a href="https://www.instagram.com/ssgsrini/" target="_blank" class="text-red">Srini 🐑</a></p>
 
                     <h4 style="margin-bottom:5px;">Support Us</h4>
                     <p style="font-size:0.9rem;">Enjoying the app? Leave a review! Support app development with an in-app purchase & use <span class="text-red">SSG</span> for <span class="text-red">10% OFF</span>.</p>
@@ -352,6 +377,7 @@
     <script src="js/components.js"></script>
     <script src="js/calculator.js"></script>
     <script src="js/inventory.js"></script>
+    <script src="js/barbells.js"></script>
     <script src="js/rpe.js"></script>
 </body>
 </html>

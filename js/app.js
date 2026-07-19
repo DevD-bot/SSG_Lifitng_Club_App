@@ -39,6 +39,7 @@ function initApp() {
 
     renderReversePlateGrid();
     if (window.initInventory) initInventory();
+    if (window.initBarbells) initBarbells();
     if (window.initRPE) initRPE();
     updateUI();
 
@@ -85,6 +86,20 @@ function setupEventListeners() {
             
             const headerTitle = document.getElementById('main-header-title');
             if (headerTitle) headerTitle.textContent = 'Inventory';
+        });
+    }
+
+    // Header Barbells Button
+    const btnBarbells = document.getElementById('btn-barbells');
+    if (btnBarbells) {
+        btnBarbells.addEventListener('click', () => {
+            document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(b => b.classList.remove('active'));
+            const barbellsView = document.getElementById('barbells-view');
+            if (barbellsView) barbellsView.classList.add('active');
+            
+            const headerTitle = document.getElementById('main-header-title');
+            if (headerTitle) headerTitle.textContent = 'Bars';
         });
     }
 

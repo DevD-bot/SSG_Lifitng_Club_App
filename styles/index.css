@@ -427,6 +427,7 @@ button {
 .credits {
     text-align: center;
     margin-top: 40px;
+    margin-bottom: 30px;
     font-size: 0.9rem;
 }
 .credits a {
@@ -544,4 +545,22 @@ input:checked + .slider:before {
 .bg-red { background-color: var(--accent-red); }
 .bg-gray { background-color: #8E8E93; }
 .bg-dark { background-color: #1C1C1E; }
+
+.bar-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background-color: var(--bg-panel);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.bar-item:hover {
+    background-color: var(--bg-panel-light);
+}
+.bar-item.selected {
+    background-color: #4A1C1C; /* Dark red tint */
+}
+
 
