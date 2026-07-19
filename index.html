@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#121212">
+    <title>SSG Barbell Calc</title>
+    <meta name="description" content="A premium barbell plate calculator and powerlifting tool.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Fullscreen Animated Loader -->
+    <div id="loader-screen" class="loader-screen">
+        <img src="assets/logo.png" alt="SSG Barbell Logo" class="loader-logo">
+    </div>
+
+    <div class="app-container" id="app-container" style="opacity: 0;">
+        <!-- Top Header -->
+        <header class="top-header">
+            <button class="header-btn" id="btn-barbells">Barbells</button>
+            <h1 class="header-title" id="main-header-title">Load the Bar</h1>
+            <button class="header-btn" id="btn-inventory">Inventory</button>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- LOAD BAR VIEW -->
+            <div id="load-bar-view" class="app-view active">
+                <nav class="sub-nav">
+                    <button class="sub-nav-btn active" data-tab="calculate">CALCULATE</button>
+                    <button class="sub-nav-btn" data-tab="reverse">REVERSE</button>
+                    <button class="sub-nav-btn" data-tab="warmup">WARM UP</button>
+                </nav>
+
+                <div class="actions-bar">
+                    <button class="icon-btn text-red"><i class="ph ph-export"></i></button>
+                    <div class="spacer"></div>
+                    <button class="reset-btn hidden" id="reset-btn">Reset</button>
+                    <button class="icon-btn"><i class="ph ph-calculator"></i></button>
+                </div>
+
+                <div class="barbell-visualizer" id="barbell-visualizer">
+                    <div class="bar-shaft">
+                        <div class="bar-weight-label" id="bar-weight-label">20</div>
+                    </div>
+                    <div class="plates-container" id="plates-container"></div>
+                    <div class="bar-end"><i class="ph ph-arrows-left-right text-red"></i></div>
+                </div>
+
+                <div class="unit-toggle-container">
+                    <div class="unit-toggle">
+                        <button class="toggle-btn active" data-unit="kg">KG</button>
+                        <button class="toggle-btn" data-unit="lb">LB</button>
+                        <button class="toggle-btn" data-unit="mixed">Mixed</button>
+                    </div>
+                </div>
+
+                <div class="weight-display">
+                    <span class="weight-primary" id="weight-primary">20 <span class="unit">KG</span></span>
+                    <span class="weight-divider">|</span>
+                    <span class="weight-secondary" id="weight-secondary">44.09 <span class="unit">LB</span></span>
+                    <button class="icon-btn small-icon text-red hidden" id="eye-btn"><i class="ph ph-eye"></i></button>
+                </div>
+
+                <div id="calculate-mode-content" class="tab-content active">
+                    <div class="calculate-inputs">
+                        <button class="percent-btn">%</button>
+                        <div class="weight-input-wrapper">
+                            <input type="number" id="target-weight-input" placeholder="Weight" class="weight-input" inputmode="decimal">
+                        </div>
+                        <span class="input-unit text-red">KG</span>
+                        <button class="icon-btn text-gray"><i class="ph ph-arrow-u-up-left"></i></button>
+                    </div>
+
+                    <div class="plates-needed-panel">
+                        <h3 class="panel-title">Set of Plates Needed</h3>
+                        <div class="plates-needed-result" id="plates-needed-result">¯\_(ツ)_/¯</div>
+                    </div>
+
+                    <div class="quick-maths">
+                        <strong>Quick Maths:</strong> <span id="quick-maths-text">20 ≈ 20 KG</span>
+                    </div>
+                </div>
+
+                <div id="reverse-mode-content" class="tab-content">
+                    <div class="plate-grid" id="plate-grid"></div>
+                </div>
+                
+                <div id="warmup-mode-content" class="tab-content">
+                    <div class="placeholder-content">
+                        <h3>Warm Up Calculator</h3>
+                        <p class="text-gray">Select your top set to calculate warm up jumps.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INVENTORY VIEW (Slide over) -->
+            <div id="inventory-view" class="app-view">
+                <div class="unit-toggle-container" style="margin-bottom: 20px;">
+                    <div class="unit-toggle">
+                        <button class="toggle-btn active" data-unit="kg">KG</button>
+                        <button class="toggle-btn" data-unit="lb">LB</button>
+                        <button class="toggle-btn" data-unit="mixed">Mixed</button>
+                    </div>
+                </div>
+
+                <div class="settings-menu">
+                    <div class="settings-item">
+                        <span>Collar</span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <input type="number" id="collar-weight" class="minimal-input" value="0">
+                            <span class="text-gray">KG</span>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <span>Add Collars</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="add-collars-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item" style="flex-direction:column; align-items:flex-start;">
+                        <div style="display:flex; justify-content:space-between; width:100%; margin-bottom: 5px;">
+                            <span>Competition Collars</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="comp-collars-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <span class="text-gray" style="font-size:0.8rem;">Competition Collars are 2.5kg x 2</span>
+                    </div>
+                </div>
+
+                <div class="settings-menu">
+                    <div class="settings-item">
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <span>Plate Style (KG)</span>
+                            <div class="plate-style-options">
+                                <!-- Placeholders for style options -->
+                                <div class="style-circle active bg-red"><i class="ph ph-check text-white"></i></div>
+                                <div class="style-circle bg-gray" style="border-left:5px solid red;"></div>
+                                <div class="style-circle bg-dark" style="border-left:2px solid red;"></div>
+                                <div class="style-circle bg-dark"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <span>Use Bumpers (KG)</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="bumpers-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <h3 style="text-align:center; margin: 15px 0 5px;">Available Plates</h3>
+                <div class="plate-grid" id="inventory-plate-grid"></div>
+            </div>
+
+            <!-- PREP VIEW -->
+            <div id="prep-view" class="app-view">
+                <nav class="sub-nav">
+                    <button class="sub-nav-btn active">PLATEAUS</button>
+                    <button class="sub-nav-btn">GEAR</button>
+                    <button class="sub-nav-btn">ATTEMPTS</button>
+                </nav>
+                <div class="prep-content" style="text-align: center; padding: 20px 0;">
+                    <h2>Overcoming Plateaus</h2>
+                    <ol style="list-style-position: inside; text-align:left; max-width:250px; margin: 15px auto; font-size:1.1rem; line-height:1.8;">
+                        <li>Acceleration (Explosive Work)</li>
+                        <li>Target the Weak Muscles</li>
+                        <li>Strengthening the Zone</li>
+                    </ol>
+                    
+                    <h3 class="text-red" style="margin-top:20px;">Squat</h3>
+                    <h3 class="text-red" style="margin-top:10px;">Bench</h3>
+                    <h3 class="text-red" style="margin-top:10px;">Deadlift</h3>
+
+                    <div style="margin-top: 30px;">
+                        <h4 style="margin-bottom:10px;">References:</h4>
+                        <p class="text-red" style="font-size:0.9rem;">Sticking Point In The Squat</p>
+                        <p class="text-red" style="font-size:0.9rem;">Reddit's Compendium To Overcoming Weak Points</p>
+                        <p class="text-red" style="font-size:0.9rem;">3 Strategies To Overcome Sticking Point In Any Lift</p>
+                    </div>
+
+                    <div style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+                        <h4>What's my weak point?</h4>
+                        <p class="text-gray" style="margin-top:10px;">Take a video of your lift and see where the bar slows down.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECORDS VIEW -->
+            <div id="records-view" class="app-view">
+                <div class="placeholder-content">
+                    <h3>Personal Records</h3>
+                    <p class="text-gray">Track your 1RM and PRs here.</p>
+                </div>
+            </div>
+
+            <!-- CALCULATORS VIEW -->
+            <div id="calculators-view" class="app-view">
+                <nav class="sub-nav">
+                    <button class="sub-nav-btn active">RPE | RIR</button>
+                    <button class="sub-nav-btn">POINTS</button>
+                    <button class="sub-nav-btn">MAX</button>
+                </nav>
+                
+                <div class="unit-toggle-container" style="margin: 15px 0;">
+                    <div class="unit-toggle">
+                        <button class="toggle-btn active">RPE</button>
+                        <button class="toggle-btn">RIR</button>
+                    </div>
+                </div>
+
+                <div class="settings-menu" style="padding:15px;">
+                    <h3 style="text-align:center; margin-bottom:15px;">Last Set</h3>
+                    <div class="rpe-input-row">
+                        <span>Weight</span>
+                        <input type="number" id="rpe-weight" placeholder="Weight" class="minimal-input rpe-input">
+                    </div>
+                    <div class="rpe-input-row">
+                        <span>Reps</span>
+                        <input type="number" id="rpe-reps" placeholder="1 - 15" class="minimal-input rpe-input">
+                    </div>
+                    <div class="rpe-input-row">
+                        <span>RPE</span>
+                        <input type="number" id="rpe-rpe" placeholder="0 - 10" step="0.5" class="minimal-input rpe-input">
+                    </div>
+                    <div class="rpe-input-row">
+                        <span>e1RM*</span>
+                        <div class="minimal-input text-gray" id="rpe-e1rm" style="display:flex;align-items:center;justify-content:center;">e1RM*</div>
+                    </div>
+                </div>
+                <p style="text-align:center; font-size:0.8rem; margin-top:5px;" class="text-gray">*e1RM = estimated 1 rep max</p>
+
+                <div class="settings-menu" style="padding:15px; margin-top:20px;">
+                    <h3 style="text-align:center; margin-bottom:15px;">Next Set</h3>
+                    <div class="rpe-input-row">
+                        <span>Reps</span>
+                        <input type="number" id="next-reps" placeholder="1 - 15" class="minimal-input rpe-input">
+                    </div>
+                    <div class="rpe-input-row">
+                        <span>RPE</span>
+                        <input type="number" id="next-rpe" placeholder="0 - 10" step="0.5" class="minimal-input rpe-input">
+                    </div>
+                    <div class="rpe-input-row">
+                        <span>Weight</span>
+                        <div class="minimal-input text-gray" id="next-weight" style="display:flex;align-items:center;justify-content:center;">-</div>
+                    </div>
+                </div>
+
+                <div style="text-align:center; margin-top:20px; font-size:0.85rem; line-height:1.6;">
+                    <p>RPE & RIR are two forms of autoregulation training tools</p>
+                    <p class="text-red">Rate of Perceived Exertion (RPE)</p>
+                    <p class="text-red">Reps In Reserve (RIR)</p>
+                </div>
+            </div>
+
+            <!-- SETTINGS VIEW -->
+            <div id="settings-view" class="app-view">
+                <div style="text-align:center; margin-bottom:20px;">
+                    <img src="assets/logo.png" style="width:80px; height:80px; border-radius:50%;">
+                    <p class="text-gray" style="text-align:right; font-size:0.8rem; margin-top:-15px;">v3.9.0</p>
+                </div>
+
+                <div class="settings-menu">
+                    <div class="settings-item">
+                        <span>Weight Unit</span>
+                        <div class="unit-toggle" style="width:120px; margin:0; padding:2px;">
+                            <button class="toggle-btn" style="padding:4px 0;">LB</button>
+                            <button class="toggle-btn active" style="padding:4px 0;">KG</button>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <span>Rounding</span>
+                        <div class="unit-toggle" style="width:160px; margin:0; padding:2px;">
+                            <button class="toggle-btn" style="padding:4px 0;">1</button>
+                            <button class="toggle-btn" style="padding:4px 0;">1.1</button>
+                            <button class="toggle-btn active" style="padding:4px 0;">1.25</button>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <span>Language</span>
+                        <span class="text-gray">🇺🇸 English <i class="ph ph-caret-down"></i></span>
+                    </div>
+                    <div class="settings-item">
+                        <span class="text-gray"><i class="ph ph-lock"></i> Customize</span>
+                        <span class="text-gray">Theme/Barbell <i class="ph ph-caret-right"></i></span>
+                    </div>
+                </div>
+
+                <div class="settings-menu" style="padding:15px;">
+                    <h4 style="margin-bottom:5px;">Unlock Customization</h4>
+                    <p style="font-size:0.9rem; margin-bottom:15px;">You're a pro in my eyes. Unlock themes, bar styles, calculator & app icons!</p>
+                    <button class="reset-btn" style="width:100%; border-radius:10px; padding:12px;">Get Pro Card</button>
+                </div>
+
+                <div class="settings-menu" style="padding:15px;">
+                    <h4 style="margin-bottom:5px;">About</h4>
+                    <p style="font-size:0.9rem; margin-bottom:15px;">For powerlifters who struggle doing maths like me :)</p>
+                    <p style="font-size:0.9rem; margin-bottom:20px;">Coached by <a href="#" class="text-red">Sincere Training Systems 🐑</a></p>
+
+                    <h4 style="margin-bottom:5px;">Support Us</h4>
+                    <p style="font-size:0.9rem;">Enjoying the app? Leave a review! Support app development with an in-app purchase & use <span class="text-red">SSG</span> for <span class="text-red">10% OFF</span>.</p>
+                </div>
+
+                <div class="credits">
+                    <p>Created by <a href="https://github.com/DevD-bot" target="_blank" class="text-red">Dev</a></p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-view="load-bar">
+                <i class="ph-fill ph-barbell"></i>
+                <span>Load Bar</span>
+            </button>
+            <button class="nav-item" data-view="prep">
+                <i class="ph ph-clipboard-text"></i>
+                <span>Prep</span>
+            </button>
+            <button class="nav-item" data-view="records">
+                <i class="ph ph-trophy"></i>
+                <span>Records</span>
+            </button>
+            <button class="nav-item" data-view="calculators">
+                <i class="ph ph-calculator"></i>
+                <span>Calculators</span>
+            </button>
+            <button class="nav-item" data-view="settings">
+                <i class="ph ph-gear"></i>
+                <span>Settings</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/components.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/rpe.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
