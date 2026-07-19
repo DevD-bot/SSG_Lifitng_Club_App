@@ -752,3 +752,84 @@ html.theme-white input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--text-muted);
     font-weight: 600;
 }
+
+/* SSG Events Records */
+.event-card {
+    background-color: var(--bg-panel);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px solid rgba(128,128,128,0.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.event-header {
+    background-color: var(--bg-panel-light);
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent-red);
+}
+
+.event-header h3 {
+    margin: 0;
+    color: var(--text-main);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.event-records {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+
+.event-record-item {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(128,128,128,0.15);
+}
+
+.event-record-item:last-child {
+    border-bottom: none;
+}
+
+.record-category {
+    font-size: 0.8rem;
+    color: var(--accent-red);
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.record-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.record-lifter {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.record-style {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.record-weight {
+    font-weight: 900;
+    font-size: 1.3rem;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+.record-weight span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
