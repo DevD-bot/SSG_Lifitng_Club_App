@@ -230,34 +230,63 @@
             </div>
 
             <!-- PREP VIEW -->
-            <div id="prep-view" class="app-view">
-                <nav class="sub-nav">
-                    <button class="sub-nav-btn active">PLATEAUS</button>
-                    <button class="sub-nav-btn">GEAR</button>
-                    <button class="sub-nav-btn">ATTEMPTS</button>
-                </nav>
-                <div class="prep-content" style="text-align: center; padding: 20px 0;">
-                    <h2>Overcoming Plateaus</h2>
-                    <ol style="list-style-position: inside; text-align:left; max-width:250px; margin: 15px auto; font-size:1.1rem; line-height:1.8;">
-                        <li>Acceleration (Explosive Work)</li>
-                        <li>Target the Weak Muscles</li>
-                        <li>Strengthening the Zone</li>
-                    </ol>
-                    
-                    <h3 class="text-red" style="margin-top:20px;">Squat</h3>
-                    <h3 class="text-red" style="margin-top:10px;">Bench</h3>
-                    <h3 class="text-red" style="margin-top:10px;">Deadlift</h3>
+            <!-- EVENTS VIEW -->
+            <div id="events-view" class="app-view">
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <h2 style="margin-bottom: 5px;" class="gradient-text">SSG Events Records</h2>
+                    <p class="text-muted" style="font-size: 0.9rem;">Hall of Fame from our official meets</p>
+                </div>
 
-                    <div style="margin-top: 30px;">
-                        <h4 style="margin-bottom:10px;">References:</h4>
-                        <p class="text-red" style="font-size:0.9rem;">Sticking Point In The Squat</p>
-                        <p class="text-red" style="font-size:0.9rem;">Reddit's Compendium To Overcoming Weak Points</p>
-                        <p class="text-red" style="font-size:0.9rem;">3 Strategies To Overcome Sticking Point In Any Lift</p>
+                <div class="event-card">
+                    <div class="event-header">
+                        <h3>Deadlift Party III</h3>
                     </div>
+                    
+                    <div class="event-records">
+                        <!-- Record 1 -->
+                        <div class="event-record-item">
+                            <div class="record-category">Heaviest Lift Male</div>
+                            <div class="record-details">
+                                <div class="record-lifter">Vishwanatha Bhaskar <span class="record-style">(Sumo)</span></div>
+                                <div class="record-weight">355 <span>KG</span></div>
+                            </div>
+                        </div>
 
-                    <div style="margin-top:30px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
-                        <h4>What's my weak point?</h4>
-                        <p class="text-gray" style="margin-top:10px;">Take a video of your lift and see where the bar slows down.</p>
+                        <!-- Record 2 -->
+                        <div class="event-record-item">
+                            <div class="record-category">Heaviest Lift Female</div>
+                            <div class="record-details">
+                                <div class="record-lifter">Namratha <span class="record-style">(Conventional)</span></div>
+                                <div class="record-weight">165 <span>KG</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Record 3 -->
+                        <div class="event-record-item">
+                            <div class="record-category">Heaviest Lift Teen (Age 19 & Below)</div>
+                            <div class="record-details">
+                                <div class="record-lifter">Arjun Ganesh <span class="record-style">(Conventional)</span></div>
+                                <div class="record-weight">250 <span>KG</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Record 4 -->
+                        <div class="event-record-item">
+                            <div class="record-category">Heaviest Lift Masters Male (Age 40+)</div>
+                            <div class="record-details">
+                                <div class="record-lifter">K C Its Eazy Michael <span class="record-style">(Conventional)</span></div>
+                                <div class="record-weight">230 <span>KG</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Record 5 -->
+                        <div class="event-record-item">
+                            <div class="record-category">Heaviest Lift Masters Female (Age 40+)</div>
+                            <div class="record-details">
+                                <div class="record-lifter">Namratha <span class="record-style">(Conventional)</span></div>
+                                <div class="record-weight">165 <span>KG</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,9 +460,9 @@
                 <i class="ph-fill ph-barbell"></i>
                 <span>Load Bar</span>
             </button>
-            <button class="nav-item" data-view="prep">
-                <i class="ph ph-clipboard-text"></i>
-                <span>Prep</span>
+            <button class="nav-item" data-view="events">
+                <i class="ph ph-star"></i>
+                <span>Events</span>
             </button>
             <button class="nav-item" data-view="records">
                 <i class="ph ph-trophy"></i>

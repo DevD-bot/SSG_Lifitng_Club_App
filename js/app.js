@@ -138,7 +138,7 @@ function setupEventListeners() {
     // Bottom Navigation (Main App Views)
     const viewTitles = {
         'load-bar': '<i class="ph-fill ph-barbell text-red"></i> <span class="gradient-text">Load the Bar</span>',
-        'prep': 'Meet Prep',
+        'events': 'Events',
         'records': 'Personal Records',
         'calculators': 'Calculators',
         'settings': 'Settings'
